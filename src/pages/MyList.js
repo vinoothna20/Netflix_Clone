@@ -11,6 +11,7 @@ export default function MyList() {
   const navigate = useNavigate();
   const [email, setEmail] = useState(undefined);
   const [storedMovies, setStoredMovies] = useState([]);
+  const [movieRemoved, setMovieRemoved] = useState(null);
 
   window.onscroll = () => {
     setIsScrolled(window.scrollY === 0 ? false : true);
@@ -38,6 +39,13 @@ export default function MyList() {
     demo();
   }, [email, storedMovies]);
 
+  const showAlert = (message) => {
+    setMovieRemoved(message);
+    setTimeout(() => {
+      setMovieRemoved(null);
+    }, 3000);
+  };
+
   return (
     <div>
       <Navbar isScrolled={isScrolled} />
@@ -55,6 +63,7 @@ export default function MyList() {
                   key={movie.id}
                   isLiked={true}
                   storedMovies={storedMovies}
+                  showAlert={showAlert}
                 />
               );
             })}
@@ -67,6 +76,11 @@ export default function MyList() {
           >
             Your list is empty :(
           </h2>
+        )}
+        {movieRemoved && (
+          <div className="fixed bottom-5 left-0 md:left-5 bg-red-500 text-white p-4 rounded">
+            {movieRemoved}
+          </div>
         )}
       </div>
     </div>

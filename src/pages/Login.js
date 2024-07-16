@@ -11,14 +11,18 @@ export default function Login() {
     email: "",
     password: "",
   });
+  const [loginError, setLoginError] = useState(false);
   const navigate = useNavigate();
+
+  console.log(loginError);
 
   const handleLogin = async () => {
     try {
       const { email, password } = formValues;
+      setLoginError(false);
       await signInWithEmailAndPassword(firebaseAuth, email, password);
     } catch (error) {
-      console.log(error);
+      setLoginError(true);
     }
   };
 
@@ -34,6 +38,27 @@ export default function Login() {
       <div className="content absolute top-0 left-0 h-screen w-screen grid ">
         <Header />
         <div className="form-container flex flex-col items-center justify-center gap-8 h-[85vh]">
+          {loginError && (
+            <div
+              className="flex items-center p-4 mb-4 text-sm rounded-lg bg-red-500 text-white"
+              role="alert"
+            >
+              <svg
+                className="flex-shrink-0 inline w-4 h-4 me-3"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+              </svg>
+              <span className="sr-only">Info</span>
+              <div>
+                <span className="font-medium">Alert!</span> You have entered the
+                wrong credentials. Please try again.
+              </div>
+            </div>
+          )}
           <div className="flex flex-col items-center justify-center p-4 md:p-8 w-full md:w-1/2 lg:w-[35vw] xl:w-[25vw] gap-8 bg-[#000000b0] ">
             <div>
               <h3 className="text-lg md:text-xl">Login</h3>
@@ -65,6 +90,7 @@ export default function Login() {
                   })
                 }
               />
+
               <button
                 className="w-60 py-2 px-4 bg-[#e50914] font-bold text-sm md:text-base rounded"
                 onClick={handleLogin}

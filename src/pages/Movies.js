@@ -11,6 +11,7 @@ import SelectGenres from "../components/SelectGenres";
 
 export default function Movies() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [movieAdded, setMovieAdded] = useState(null);
   const navigate = useNavigate();
   const genresLoaded = useSelector((state) => state.netflix.genresLoaded);
   const movies = useSelector((state) => state.netflix.movies);
@@ -35,6 +36,13 @@ export default function Movies() {
     // if (currentUser) navigate("/");
   });
 
+  const showAlert = (message) => {
+    setMovieAdded(message);
+    setTimeout(() => {
+      setMovieAdded(null);
+    }, 3000);
+  };
+
   return (
     <div>
       <div>
@@ -44,12 +52,17 @@ export default function Movies() {
         <SelectGenres genres={genres} type="movie" />
         {movies.length ? (
           <div className="pb-14">
-            <Slider movies={movies} />
+            <Slider movies={movies} showAlert={showAlert} />
           </div>
         ) : (
           <NotAvailable />
         )}
       </div>
+      {movieAdded && (
+        <div className="fixed bottom-5 md:left-5 bg-green-500 text-white p-4 rounded">
+          {movieAdded}
+        </div>
+      )}
     </div>
   );
 }

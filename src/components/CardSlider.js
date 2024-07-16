@@ -3,7 +3,7 @@ import Card from "./Card";
 import styled from "styled-components";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 
-export default React.memo(function CardSlider({ data, title }) {
+export default React.memo(function CardSlider({ data, title, showAlert }) {
   const [showControls, setShowControls] = useState(false);
   const [sliderPosition, setSliderPosition] = useState(0);
   const listRef = useRef();
@@ -45,7 +45,14 @@ export default React.memo(function CardSlider({ data, title }) {
           ref={listRef}
         >
           {data.map((movie, index) => {
-            return <Card movieData={movie} index={index} key={movie.id} />;
+            return (
+              <Card
+                movieData={movie}
+                index={index}
+                key={movie.id}
+                showAlert={showAlert}
+              />
+            );
           })}
         </div>
         <div

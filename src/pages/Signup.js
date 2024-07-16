@@ -16,6 +16,7 @@ export default function Signup() {
     email: "",
     password: "",
   });
+  const [alertMessage, setAlertMessage] = useState(null);
   const navigate = useNavigate();
 
   const handleSignup = async () => {
@@ -26,7 +27,15 @@ export default function Signup() {
         savedMovies: [],
       });
     } catch (error) {
-      console.log(error);
+      if (error.code === "auth/email-already-in-use") {
+        setAlertMessage("User already has an account.");
+      } else if (error.code === "auth/weak-password") {
+        setAlertMessage(
+          "Password is too weak. Please choose a stronger password."
+        );
+      } else {
+        setAlertMessage("An error occurred. Please try again.");
+      }
     }
   };
 
@@ -35,6 +44,13 @@ export default function Signup() {
       if (currentUser) navigate("/");
     });
   }, []);
+
+  useEffect(() => {
+    if (alertMessage) {
+      const timer = setTimeout(() => setAlertMessage(null), 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [alertMessage]);
 
   return (
     <Container showPassword={showPassword}>
@@ -97,6 +113,11 @@ export default function Signup() {
           >
             Sign Up
           </button>
+          {alertMessage && (
+            <div className="fixed bottom-5 left-5 right-5 md:right-auto bg-red-500 text-white p-4 rounded-md text-sm md:text-base lg:text-lg shadow-md">
+              {alertMessage}
+            </div>
+          )}
         </div>
       </div>
     </Container>

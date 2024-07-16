@@ -11,6 +11,7 @@ import Slider from "../components/Slider";
 
 export default function Netflix() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [movieAdded, setMovieAdded] = useState(null);
   const navigate = useNavigate();
   const genresLoaded = useSelector((state) => state.netflix.genresLoaded);
   const movies = useSelector((state) => state.netflix.movies);
@@ -27,6 +28,13 @@ export default function Netflix() {
   window.onscroll = () => {
     setIsScrolled(window.scrollY === 0 ? false : true);
     return () => (window.onscroll = null);
+  };
+
+  const showAlert = (message) => {
+    setMovieAdded(message);
+    setTimeout(() => {
+      setMovieAdded(null);
+    }, 3000);
   };
 
   // console.log(movies);
@@ -55,8 +63,13 @@ export default function Netflix() {
         </div>
       </div>
       <div className="pb-14">
-        <Slider movies={movies} />
+        <Slider movies={movies} showAlert={showAlert} />
       </div>
+      {movieAdded && (
+        <div className="fixed bottom-5 sm:left-5 bg-green-500 text-white p-4 rounded">
+          {movieAdded}
+        </div>
+      )}
     </div>
   );
 }

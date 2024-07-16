@@ -11,6 +11,7 @@ import SelectGenres from "../components/SelectGenres";
 
 export default function TVShows() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [movieAdded, setMovieAdded] = useState(null);
   const navigate = useNavigate();
   const genresLoaded = useSelector((state) => state.netflix.genresLoaded);
   const movies = useSelector((state) => state.netflix.movies);
@@ -35,6 +36,13 @@ export default function TVShows() {
     // if (currentUser) navigate("/");
   });
 
+  const showAlert = (message) => {
+    setMovieAdded(message);
+    setTimeout(() => {
+      setMovieAdded(null);
+    }, 3000);
+  };
+
   return (
     <div>
       <div>
@@ -44,12 +52,17 @@ export default function TVShows() {
         <SelectGenres genres={genres} type="tv" />
         {movies.length ? (
           <div className="pb-14">
-            <Slider movies={movies} />
+            <Slider movies={movies} showAlert={showAlert} />
           </div>
         ) : (
           <NotAvailable className="text-center text-white mt-16" />
         )}
       </div>
+      {movieAdded && (
+        <div className="fixed bottom-5 left-5 bg-green-500 text-white p-4 rounded">
+          {movieAdded}
+        </div>
+      )}
     </div>
   );
 }

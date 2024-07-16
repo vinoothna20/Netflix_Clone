@@ -15,6 +15,7 @@ export default React.memo(function Card({
   movieData,
   isLiked = false,
   storedMovies,
+  showAlert,
 }) {
   const [isHovered, setIsHovered] = useState(false);
   const [email, setEmail] = useState(undefined);
@@ -38,6 +39,7 @@ export default React.memo(function Card({
           image: `https://image.tmdb.org/t/p/w500${movieData.image}`,
         }),
       });
+      showAlert(`${movieData.name} has been added to your list!`);
     } else {
       console.log("error");
     }
@@ -49,7 +51,7 @@ export default React.memo(function Card({
       await updateDoc(movieId, {
         savedMovies: result,
       });
-      console.log(result);
+      showAlert(`${movieData.name} has been removed from your list!`);
     } catch (error) {
       console.log(error);
     }
