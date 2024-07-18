@@ -1,4 +1,6 @@
-<<<<<<< HEAD
+> > > > > > > HEAD
+> > > > > > > HEAD
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
@@ -68,7 +70,12 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 ### `npm run build` fails to minify
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-=======
+# This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
 # Netflix_clone
->>>>>>> a89fe27e58a164f0429563d888477367a38597a8
+
+> > > > > > > # a89fe27e58a164f0429563d888477367a38597a8
+
+# Netflix_clone
+
+> > > > > > > 0acb9e260b290c9c013b36364ccc6e6cc00dbbf5
