@@ -1,5 +1,4 @@
-> > > > > > > HEAD
-> > > > > > > HEAD
+<<<<<<< HEAD
 
 # Getting Started with Create React App
 
@@ -78,4 +77,8 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 # Netflix_clone
 
-> > > > > > > 0acb9e260b290c9c013b36364ccc6e6cc00dbbf5
+> > > > > > > # 0acb9e260b290c9c013b36364ccc6e6cc00dbbf5
+
+# Netflix_Clone
+
+> > > > > > > 9549610590e5cc82a58041403313eb2a7791bb7d
