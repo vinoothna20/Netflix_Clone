@@ -37,6 +37,7 @@ export default React.memo(function Card({
           id: movieData.id,
           name: movieData.name,
           image: `https://image.tmdb.org/t/p/w500${movieData.image}`,
+          videoUrl: movieData.videoUrl,
         }),
       });
       showAlert(`${movieData.name} has been added to your list!`);
@@ -77,29 +78,31 @@ export default React.memo(function Card({
               className="w-full h-full object-cover rounded top-0 z-[4] absolute"
               src={`https://image.tmdb.org/t/p/w500${movieData.image}`}
               alt="movie"
-              onClick={() => navigate("/player")}
+              onClick={() => navigate("/player", { state: { movieData } })}
             />
-            {/* <video
-              src={video}
-              autoPlay
-              loop
-              muted
-              onClick={() => navigate("/player")}
-            /> */}
-            <iframe
-              className="w-full h-full object-cover rounded top-0 z-[5] absolute"
-              src="https://www.youtube.com/embed/sBEvEcpnG7k?si=0j-i1HqwRmL8cOlc"
-              title="YouTube video player"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerPolicy="strict-origin-when-cross-origin"
-              allowFullScreen
-              onClick={() => navigate("/player")}
-            ></iframe>
+            {movieData.videoUrl ? (
+              <iframe
+                className="w-full h-full object-cover rounded top-0 z-[5] absolute"
+                src={movieData.videoUrl}
+                title="YouTube video player"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allowFullScreen
+                onClick={() => navigate("/player", { state: { movieData } })}
+              ></iframe>
+            ) : (
+              <img
+                className="w-full h-full object-cover rounded top-0 z-[4] absolute"
+                src={`https://image.tmdb.org/t/p/w500${movieData.image}`}
+                alt="movie"
+                onClick={() => navigate("/player", { state: { movieData } })}
+              />
+            )}
           </div>
           <div className="p-2 sm:p-4 flex flex-col gap-1 sm:gap-2 z-[90]">
             <h3
               className="text-sm sm:text-md md:text-lg lg:text-xl"
-              onClick={() => navigate("/player")}
+              onClick={() => navigate("/player", { state: { movieData } })}
             >
               {movieData.name}
             </h3>
@@ -107,7 +110,7 @@ export default React.memo(function Card({
               <div className="flex gap-2 sm:gap-4">
                 <IoPlayCircleSharp
                   title="Play"
-                  onClick={() => navigate("/player")}
+                  onClick={() => navigate("/player", { state: { movieData } })}
                   className="text-sm sm:text-md md:text-lg lg:text-2xl"
                 />
                 <RiThumbUpFill

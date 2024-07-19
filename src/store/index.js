@@ -19,33 +19,67 @@ export const getGenres = createAsyncThunk("netflix/genres", async () => {
   return genres;
 });
 
-const createArrayFromRawData = (array, moviesArray, genres) => {
-  // console.log(array);
+const createArrayFromRawData = async (array, genres) => {
+  const moviesArray = [];
+  for (const movie of array) {
+    const movieGenres = movie.genre_ids
+      .map((genre) => {
+        const genreObj = genres.find(({ id }) => id === genre);
+        return genreObj ? genreObj.name : null;
+      })
+      .filter(Boolean);
 
-  array.forEach((movie) => {
-    const movieGenres = [];
-    movie.genre_ids.forEach((genre) => {
-      const name = genres.find(({ id }) => id === genre);
-      if (name) movieGenres.push(name.name);
-    });
     if (movie.backdrop_path) {
-      moviesArray.push({
-        id: movie.id,
-        name: movie?.original_name ? movie.original_name : movie.original_title,
-        image: movie.backdrop_path,
-        genres: movieGenres.slice(0, 3),
-      });
+      try {
+        const videoResponse = await axios.get(
+          `${TMDB_BASE_URL}/movie/${movie.id}/videos?api_key=${API_KEY}`
+        );
+        const videos = videoResponse.data.results;
+        const trailer = videos.find((video) => video.type === "Trailer");
+
+        moviesArray.push({
+          id: movie.id,
+          name: movie?.original_name
+            ? movie.original_name
+            : movie.original_title,
+          image: movie.backdrop_path,
+          genres: movieGenres.slice(0, 3),
+          videoUrl: trailer
+            ? `https://www.youtube.com/embed/${trailer.key}`
+            : "",
+        });
+      } catch (error) {
+        console.error(
+          `Failed to fetch videos for movie ID ${movie.id}:`,
+          error
+        );
+        moviesArray.push({
+          id: movie.id,
+          name: movie?.original_name
+            ? movie.original_name
+            : movie.original_title,
+          image: movie.backdrop_path,
+          genres: movieGenres.slice(0, 3),
+          videoUrl: "",
+        });
+      }
     }
-  });
+  }
+  return moviesArray;
 };
 
 const getRawData = async (api, genres, paging) => {
   const moviesArray = [];
   for (let i = 1; moviesArray.length < 60 && i < 10; i++) {
-    const {
-      data: { results },
-    } = await axios.get(`${api}${paging ? `&page=${i}` : ""}`);
-    createArrayFromRawData(results, moviesArray, genres);
+    try {
+      const {
+        data: { results },
+      } = await axios.get(`${api}${paging ? `&page=${i}` : ""}`);
+      const newMovies = await createArrayFromRawData(results, genres);
+      moviesArray.push(...newMovies);
+    } catch (error) {
+      console.error(`Failed to fetch data from API:`, error);
+    }
   }
   // console.log({ moviesArray });
   return moviesArray;

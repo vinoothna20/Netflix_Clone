@@ -27,17 +27,19 @@ export default function MyList() {
   }, []);
 
   useEffect(() => {
-    async function demo() {
-      const docSnap = await getDoc(doc(db, `users/${email}`));
-      if (docSnap.exists()) {
-        setStoredMovies(docSnap.data().savedMovies);
-        // console.log("document data: ", docSnap.data().savedMovies);
-      } else {
-        console.log("no such document");
+    async function fetchStoredMovies() {
+      if (email) {
+        const docSnap = await getDoc(doc(db, `users/${email}`));
+        if (docSnap.exists()) {
+          const movies = docSnap.data().savedMovies || [];
+          setStoredMovies(movies);
+        } else {
+          console.log("No such document");
+        }
       }
     }
-    demo();
-  }, [email, storedMovies]);
+    fetchStoredMovies();
+  }, [email]);
 
   const showAlert = (message) => {
     setMovieRemoved(message);
