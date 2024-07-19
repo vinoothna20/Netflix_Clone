@@ -52,7 +52,16 @@ export default function Netflix() {
           <div className="flex gap-4 md:gap-8">
             <button
               className="flex justify-center items-center text-base md:text-2xl gap-2 md:gap-4 rounded-sm p-2 md:pl-8 md:pr-10 cursor-pointer transition duration-75 ease-in-out hover:opacity-80 bg-white text-black"
-              onClick={() => navigate("/player")}
+              onClick={() =>
+                navigate("/player", {
+                  state: {
+                    movieData: {
+                      videoUrl:
+                        "https://www.youtube.com/embed/sBEvEcpnG7k?si=NQv4JVRMk8j6xIfv",
+                    },
+                  },
+                })
+              }
             >
               <FaPlay /> Play
             </button>
