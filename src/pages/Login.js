@@ -63,7 +63,7 @@ export default function Login() {
             <div>
               <h3 className="text-lg md:text-xl">Login</h3>
             </div>
-            <div className="flex flex-col gap-4 md:gap-8">
+            <div className="flex flex-col gap-4 md:gap-8 align-middle">
               <input
                 className="w-60 py-2 px-4 text-black text-sm md:text-base"
                 type="mail"
@@ -90,6 +90,21 @@ export default function Login() {
                   })
                 }
               />
+
+              <div className="bg-red-600 rounded-sm">
+                <details className="w-60">
+                  <summary className="text-base md:text-base pl-2 cursor-pointer">
+                    Save your time using these credentials 😉
+                  </summary>
+                  <p className="bg-red-500 pl-2 mt-2 py-2 rounded-sm">
+                    <span className="font-bold">Username:</span> demo@gmail.com{" "}
+                    <br />
+                    <span className="font-bold"> Password:</span> demo123
+                  </p>
+                </details>
+              </div>
+              {/* rgb(80 77 77 / 87%); */}
+              {/* rgb(254 31 31 / 87%); */}
 
               <button
                 className="w-60 py-2 px-4 bg-[#e50914] font-bold text-sm md:text-base rounded"
